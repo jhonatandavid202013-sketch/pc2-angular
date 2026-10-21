@@ -1,0 +1,73 @@
+
+<div class="usuarios-container">
+  <div class="encabezado">
+    <div>
+      <h1>Gestión de usuarios</h1>
+      <p>Administra y consulta la información de los usuarios.</p>
+    </div>
+
+    <button class="btn-actualizar" (click)="obtenerUsuarios()">
+      <i class="bi bi-arrow-clockwise"></i>
+      Actualizar
+    </button>
+  </div>
+
+  <div class="resumen">
+    <div class="resumen-icono">
+      <i class="bi bi-people-fill"></i>
+    </div>
+    <div>
+      <p>Usuarios registrados en la API</p>
+      <h2>{{ usuarios.length }}</h2>
+    </div>
+  </div>
+
+  <div class="mensaje cargando" *ngIf="cargando">
+    <div class="spinner"></div>
+    <p>Cargando usuarios...</p>
+  </div>
+
+  <div class="mensaje error" *ngIf="error">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    <p>{{ error }}</p>
+    <button (click)="obtenerUsuarios()">Reintentar</button>
+  </div>
+
+  <div class="tabla-container" *ngIf="!cargando && !error">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Usuario</th>
+          <th>Correo electrónico</th>
+          <th>Teléfono</th>
+          <th>Sitio web</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.id }}</td>
+          <td class="nombre">{{ usuario.name }}</td>
+          <td>{{ usuario.username }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.phone }}</td>
+          <td>
+            <a [href]="'https://' + usuario.website" target="_blank" rel="noopener noreferrer">
+              {{ usuario.website }}
+            </a>
+          </td>
+        </tr>
+
+        <tr *ngIf="usuarios.length === 0">
+          <td colspan="6" class="sin-datos">No hay usuarios disponibles.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pie-tabla" *ngIf="!cargando && !error">
+    Mostrando {{ usuarios.length }} usuarios.
+  </div>
+</div>
